@@ -1,0 +1,53 @@
+services:
+  database:
+    container_name: "database"
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  backend:
+    container_name: "backend"
+    build: ../backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      - MYSQL_DATABASE_URL=jdbc:mysql://database:3306/docuroom_db?useSSL=false&allowPublicKeyRetrieval=true
+      - MYSQL_DATABASE_USERNAME=${MYSQL_DATABASE_USERNAME}
+      - MYSQL_DATABASE_PASSWORD=${MYSQL_DATABASE_PASSWORD}
+
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+    networks:
+      - app-network
+
+  frontend:
+    container_name: "frontend"
+    build: ../frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
+    driver: bridge

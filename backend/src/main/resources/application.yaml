@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: info
+  pattern.console: ${LOG_PATTERN_CONSOLE:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n}
+spring:
+  application:
+    name: "backend"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+
+  datasource:
+    url: ${MYSQL_DATABASE_URL:jdbc:mysql://localhost:3307/docuroom_db?useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${MYSQL_DATABASE_USERNAME:root}
+    password: ${MYSQL_DATABASE_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+aws:
+  accessKeyId: ${AWS_ACCESS_KEY_ID}
+  secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+  region: ${AWS_REGION}
+  s3:
+    bucketName: ${AWS_S3_BUCKET_NAME}
+
+
