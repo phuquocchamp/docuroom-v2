@@ -24,10 +24,10 @@ function Home() {
         </div>
         <div className="flex justify-between space-x-4 mb-6 overflow-x-auto w-full px-8">
           {[
-            { group: "Korean", color: "bg-blue-500", imgSrc: "/group/Korean.jpg" },
-            { group: "Lập trình mạng", color: "bg-orange-500", imgSrc: "/group/LapTrinhMang.jpg" },
-            { group: "English", color: "bg-green-500", imgSrc: "/group/English.jpg" },
-            { group: "Trí Tuệ Nhân Tạo", color: "bg-yellow-500", imgSrc: "/group/AI.jpg" }
+            { topic: "Korean",doc:"32 tài liệu", color: "bg-blue-500", imgSrc: "/group/Korean.jpg" },
+            { topic: "Lập trình mạng",doc:"32 tài liệu", color: "bg-orange-500", imgSrc: "/group/LapTrinhMang.jpg" },
+            { topic: "English",doc:"32 tài liệu", color: "bg-green-500", imgSrc: "/group/English.jpg" },
+            { topic: "Trí Tuệ Nhân Tạo",doc:"32 tài liệu", color: "bg-yellow-500", imgSrc: "/group/AI.jpg" }
           ].map((item, index) => (
             <div
               key={index}
@@ -38,10 +38,10 @@ function Home() {
                   className="w-20 h-20 rounded-full bg-cover bg-center"
                   style={{ backgroundImage: `url(${item.imgSrc})` }}
                 ></div>
-                <div className="flex-1"> {/* Để phần văn bản và nút chiếm hết không gian còn lại */}
-                  <h3 className="font-semibold text-white text-base">{item.group}</h3>
-                  <p className="text-sm text-gray-200">35 people</p>
-                  <button className="mt-2 bg-white text-blue-500  px-6 py-2 rounded-full shadow-md hover:bg-blue-100 transition-colors duration-200">Join</button> {/* Hiệu ứng hover cho nút */}
+                <div className="flex-1"> 
+                  <h3 className="font-semibold text-white text-base">{item.topic}</h3>
+                  <p className="text-sm text-gray-200">{item.doc}</p>
+                  <button className="mt-2 bg-white text-blue-500  px-6 py-2 rounded-full shadow-md hover:bg-blue-100 transition-colors duration-200">View</button> {/* Hiệu ứng hover cho nút */}
                 </div>
               </div>
             </div>
@@ -70,14 +70,14 @@ function Home() {
             {/* Your Group Section */}
             <div className="bg-white rounded-lg shadow-md p-4">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold text-lg">Your Group</h3>
+                <h3 className="font-semibold text-lg">Community</h3>
                 <a href="#" className="text-blue-600 text-sm">View all</a>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
-                  { group: "AI Group", imgSrc: "/group/AIGroup.png" },
-                  { group: "Speaking Korean", imgSrc: "/group/speakingkorean.png" },
-                  { group: "Learn Toeic", imgSrc: "/group/toeic.jpg" },
+                  { group: "VKU", imgSrc: "/comunity/vku.png" },
+                  { group: "DUE", imgSrc: "/comunity/due.png" },
+                  { group: "DUT", imgSrc: "/comunity/dut.jpg" },
                 ].map((item, index) => (
                   <div key={index} className="flex flex-col items-center">
                     <img src={item.imgSrc} alt={item.group} className="w-16 h-16 rounded-full bg-cover bg-center" />
