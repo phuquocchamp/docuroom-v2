@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Category from '../components/Category';
 import DocumentItems from '../components/DocumentItems';
+
 function Home() {
 
   return (
@@ -24,14 +25,14 @@ function Home() {
         </div>
         <div className="flex justify-between space-x-4 mb-6 overflow-x-auto w-full px-8">
           {[
-            { topic: "Korean",doc:"32 tài liệu", color: "bg-blue-500", imgSrc: "/group/Korean.jpg" },
-            { topic: "Lập trình mạng",doc:"32 tài liệu", color: "bg-orange-500", imgSrc: "/group/LapTrinhMang.jpg" },
-            { topic: "English",doc:"32 tài liệu", color: "bg-green-500", imgSrc: "/group/English.jpg" },
-            { topic: "Trí Tuệ Nhân Tạo",doc:"32 tài liệu", color: "bg-yellow-500", imgSrc: "/group/AI.jpg" }
+            { topic: "Korean",doc:"32 tài liệu", color: "bg-blue-500", imgSrc: "/group/Korean.jpg", id: 1 },
+            { topic: "Lập trình mạng",doc:"32 tài liệu", color: "bg-orange-500", imgSrc: "/group/LapTrinhMang.jpg", id: 2  },
+            { topic: "English",doc:"32 tài liệu", color: "bg-green-500", imgSrc: "/group/English.jpg", id: 3  },
+            { topic: "Trí Tuệ Nhân Tạo",doc:"32 tài liệu", color: "bg-yellow-500", imgSrc: "/group/AI.jpg", id: 4  }
           ].map((item, index) => (
-            <div
-              key={index}
-              className={`${item.color} rounded-xl p-4 text-left flex items-center justify-center w-full max-w-xs shadow-lg`} // Sử dụng flex để bố trí ngang
+            <Link
+            key={index} to={`/folder-details/${item.id}`}
+              className={`${item.color} rounded-xl p-4 text-left flex items-center justify-center w-full max-w-xs shadow-lg`} 
             >
               <div className="flex items-center space-x-8">
                 <div
@@ -41,10 +42,10 @@ function Home() {
                 <div className="flex-1"> 
                   <h3 className="font-semibold text-white text-base">{item.topic}</h3>
                   <p className="text-sm text-gray-200">{item.doc}</p>
-                  <button className="mt-2 bg-white text-blue-500  px-6 py-2 rounded-full shadow-md hover:bg-blue-100 transition-colors duration-200">View</button> {/* Hiệu ứng hover cho nút */}
+                  <button className="mt-2 bg-white text-blue-500  px-6 py-2 rounded-full shadow-md hover:bg-blue-100 transition-colors duration-200">View</button> 
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -56,8 +57,7 @@ function Home() {
           {/* Left and Center Content (Categories and Documents) */}
           <div className="xl:col-span-7 overflow-y-auto">
 
-            {/* Category Section */}
-            <Category />
+         
 
             {/* Document Section */}
             <DocumentItems />

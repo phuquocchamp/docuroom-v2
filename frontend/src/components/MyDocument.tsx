@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { HiOutlineDocumentArrowUp } from 'react-icons/hi2';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+
 
 interface Document {
     title: string;
@@ -78,8 +80,8 @@ function MyDocument(): JSX.Element {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6">
                 {documents.map((doc) => (
-                    <div
-                        key={doc.id}
+                    <Link
+                    key={doc.id} to={`/item-details/${doc.id}`}
                         className="relative bg-white rounded-lg shadow-lg p-6 flex flex-col hover:shadow-xl transition-shadow duration-300 ease-in-out"
                     >
                         <img
@@ -122,7 +124,7 @@ function MyDocument(): JSX.Element {
                                 </div>
                             )}
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>

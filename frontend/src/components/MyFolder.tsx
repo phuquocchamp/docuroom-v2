@@ -2,29 +2,32 @@ import {useState} from 'react';
 import {BsThreeDotsVertical} from 'react-icons/bs';
 import {VscNewFolder} from 'react-icons/vsc';
 import {IoCloseCircleOutline} from 'react-icons/io5';
+import {Link} from 'react-router-dom';
 
 function MyFolder(): JSX.Element {
     const [activePopup, setActivePopup] = useState<number | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const categories = [
-        'Korean',
-        'Computer Network',
-        'Software Technology',
-        'English',
-    ];
+   
+
+    const folders = [
+        { title: "Korean", id: 1 },
+        { title: "Computer Network",  id: 2 },
+        { title: "Software",  id: 3 },
+        { title: "English",  id: 4 },
+    ]
 
     const handlePopupToggle = (index: number): void => {
         setActivePopup((prev) => (prev === index ? null : index));
     };
 
-    const handleRename = (category: string): void => {
-        console.log(`Rename ${category}`);
+    const handleRename = (folders: string): void => {
+        console.log(`Rename ${folders}`);
         setActivePopup(null);
     };
 
-    const handleDelete = (category: string): void => {
-        console.log(`Delete ${category}`);
+    const handleDelete = (folders: string): void => {
+        console.log(`Delete ${folders}`);
         setActivePopup(null);
     };
 
@@ -88,13 +91,13 @@ function MyFolder(): JSX.Element {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mb-6">
-                {categories.map((category, index) => (
-                    <div
-                        key={index}
+                {folders.map((folders, index) => (
+                    <Link
                         className="relative bg-white rounded-lg px-6 py-4 shadow-lg flex items-center space-x-4 hover:shadow-2xl transition-shadow duration-300 ease-in-out"
+                        key={index} to={`/folder-details/${folders.id}`}
                     >
-                        <img src="/group/folder.png" alt={category} className="w-12 h-12" />
-                        <p className="font-semibold text-base flex-1">{category}</p>
+                        <img src="/group/folder.png" alt={folders.title} className="w-12 h-12" />
+                        <p className="font-semibold text-base flex-1">{folders.title}</p>
                         <button
                             onClick={() => handlePopupToggle(index)}
                             className="text-gray-600 hover:text-blue-500 transition duration-200"
@@ -105,20 +108,20 @@ function MyFolder(): JSX.Element {
                         {activePopup === index && (
                             <div className="absolute right-0 top-14 bg-white border rounded-lg shadow-lg z-10 w-40">
                                 <button
-                                    onClick={() => handleRename(category)}
+                                    onClick={() => handleRename(folders)}
                                     className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
                                 >
                                     Rename
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(category)}
+                                    onClick={() => handleDelete(folders)}
                                     className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-red-500"
                                 >
                                     Delete
                                 </button>
                             </div>
                         )}
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>

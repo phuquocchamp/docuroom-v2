@@ -2,8 +2,15 @@ import { GoBell } from "react-icons/go";
 import { TbMessageFilled } from "react-icons/tb";
 import { CiSearch } from "react-icons/ci";
 import UserProfile from "./UserProfile";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
+
+  const handleSearchClick = () => {
+    navigate("/search");
+  };
+
   return (
     <div className="flex items-center justify-between p-4 px-10 flex-wrap">
       {/* Welcome Text */}
@@ -14,7 +21,10 @@ function Header() {
       {/* Search Bar and Buttons */}
       <div className="flex items-center space-x-3 w-full sm:w-auto mt-3 sm:mt-0">
         {/* Search Bar */}
-        <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-sm focus-within:ring-2 focus-within:ring-indigo-600 w-full sm:w-96">
+        <div
+          onClick={handleSearchClick}
+          className="flex items-center bg-white px-4 py-2 rounded-full shadow-sm focus-within:ring-2 focus-within:ring-indigo-600 w-full sm:w-96 cursor-pointer"
+        >
           <CiSearch className="text-gray-500 mr-2" size={20} />
           <input
             type="text"

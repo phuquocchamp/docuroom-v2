@@ -11,6 +11,8 @@ function DocumentItems() {
           { title: "Bài tập giải tích", date: "12/10/2023", user: "Phu Quoc", imgSrc: "/doc/GiaiTich.jpg", id: 2 },
           { title: "Đề Thi tiếng Hàn", date: "12/10/2023", user: "Khanh Linh", imgSrc: "/doc/Korean.jpg", id: 3 },
           { title: "Tổng hợp ngữ pháp tiếng Anh cơ bản", date: "12/10/2023", user: "Phu Quoc", imgSrc: "/doc/TiengAnh.jpg", id: 4 },
+          { title: "Bài tập giải tích", date: "12/10/2023", user: "Phu Quoc", imgSrc: "/doc/GiaiTich.jpg", id: 2 },
+          { title: "Đề Thi tiếng Hàn", date: "12/10/2023", user: "Khanh Linh", imgSrc: "/doc/Korean.jpg", id: 3 },
         ].map((doc, index) => (
           <Link key={index} to={`/item-details/${doc.id}`} className="bg-white rounded-lg shadow-lg p-6 flex flex-col hover:shadow-xl transition-shadow duration-300 ease-in-out">
             {/* Image Placeholder */}
