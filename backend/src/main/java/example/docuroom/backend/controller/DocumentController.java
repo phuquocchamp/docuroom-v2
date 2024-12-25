@@ -2,6 +2,7 @@ package example.docuroom.backend.controller;
 
 import example.docuroom.backend.dto.DocumentResponse;
 import example.docuroom.backend.dto.request.DocumentRequest;
+import example.docuroom.backend.dto.response.ApiResponse;
 import example.docuroom.backend.service.IDocumentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +26,24 @@ public class DocumentController {
     }
 
     @PostMapping()
-    public ResponseEntity<DocumentResponse> createDocument(@RequestBody DocumentRequest documentRequest){
+    public ResponseEntity<ApiResponse<DocumentResponse>> createDocument(@RequestBody DocumentRequest documentRequest){
+        ApiResponse<DocumentResponse> response = new ApiResponse<>();
 
-        return new ResponseEntity<>(documentService.createDocument(documentRequest), HttpStatus.CREATED);
+        response.setStatus(HttpStatus.CREATED.value());
+        response.setMessage("DOCUMENT CREATED SUCCESSFULLY");
+        response.setData(documentService.createDocument(documentRequest));
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/fetchDocuments")
-    public ResponseEntity<List<DocumentResponse>> fetchDocuments(){
-        return new ResponseEntity<>(documentService.fetchDocuments(), HttpStatus.OK);
+    @GetMapping("/{folder}")
+    public ResponseEntity<ApiResponse<List<DocumentResponse>>> fetchDocuments(@PathVariable("folder") String folder){
+        ApiResponse<List<DocumentResponse>> response = new ApiResponse<>();
+        response.setStatus(HttpStatus.OK.value());
+        response.setMessage("DOCUMENTS FETCHED SUCCESSFULLY");
+        response.setData(documentService.getDocuments(folder));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

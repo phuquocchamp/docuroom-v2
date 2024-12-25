@@ -27,4 +27,10 @@ public class AuthUser {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<Role> roles;
+
+
+    @OneToMany(
+        mappedBy = "user"
+    )
+    private Set<Folder> folders;
 }

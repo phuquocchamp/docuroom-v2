@@ -2,6 +2,7 @@ package example.docuroom.backend.controller;
 
 import example.docuroom.backend.dto.request.FolderRequest;
 import example.docuroom.backend.dto.response.ApiResponse;
+import example.docuroom.backend.dto.response.FolderResponse;
 import example.docuroom.backend.entity.Folder;
 import example.docuroom.backend.service.IFolderService;
 import org.springframework.http.HttpStatus;
@@ -27,21 +28,21 @@ public class FolderController {
     }
 
     @PostMapping()
-    public ResponseEntity<ApiResponse<String>> createFolder(@RequestBody String folderName) {
+    public ResponseEntity<ApiResponse<FolderResponse>> createFolder(@RequestBody FolderRequest folderRequest) {
 
-        ApiResponse<String> response = new ApiResponse<>();
+        ApiResponse<FolderResponse> response = new ApiResponse<>();
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("FOLDER CREATED SUCCESSFULLY");
-        response.setData(folderService.createFolder(folderName).getName());
+        response.setData(folderService.createFolder(folderRequest));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping()
-    public ResponseEntity<ApiResponse<List<String>>> fetchFolders() {
-        ApiResponse<List<String>> response = new ApiResponse<>();
+    public ResponseEntity<ApiResponse<List<FolderResponse>>> fetchFolders() {
+        ApiResponse<List<FolderResponse>> response = new ApiResponse<>();
         response.setStatus(HttpStatus.OK.value());
         response.setMessage("FOLDERS FETCHED SUCCESSFULLY");
-        response.setData(folderService.getAllFolders().stream().map(Folder::getName).collect(Collectors.toList()));
+        response.setData(folderService.getAllFolders());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -56,4 +57,13 @@ public class FolderController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/{folderID}")
+    public ResponseEntity<ApiResponse<FolderResponse>> updateFolder(@PathVariable("folderID") Long folderID, @RequestBody FolderRequest folderRequest) {
+        ApiResponse<FolderResponse> response = new ApiResponse<>();
+        response.setStatus(HttpStatus.OK.value());
+        response.setMessage("FOLDER UPDATED SUCCESSFULLY");
+        response.setData(folderService.updateFolder(folderID, folderRequest.getName()));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

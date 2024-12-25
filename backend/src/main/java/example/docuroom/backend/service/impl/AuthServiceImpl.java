@@ -78,4 +78,9 @@ public class AuthServiceImpl implements IAuthService {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public AuthUser findByEmail(String email) {
+        return authRepository.findByEmail(email).orElse(null);
+    }
 }

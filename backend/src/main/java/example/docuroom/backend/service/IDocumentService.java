@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface IDocumentService {
     DocumentResponse createDocument(DocumentRequest documentRequest);
-    List<DocumentResponse> fetchDocuments();
+    List<DocumentResponse> getDocuments(String folder);
 }

@@ -7,10 +7,10 @@ import example.docuroom.backend.entity.Folder;
 import java.util.List;
 
 public interface IFolderService {
-    FolderResponse createFolder(String folderName);
+    FolderResponse createFolder(FolderRequest folderRequest);
     FolderResponse getFolderById(Long id);
-    List<Folder> getAllFolders();
-    Folder updateFolder(Long id, String newName);
+    List<FolderResponse> getAllFolders();
+    FolderResponse updateFolder(Long id, String newName);
     void deleteFolder(Long id);
     boolean isFolderExists(String name);
 

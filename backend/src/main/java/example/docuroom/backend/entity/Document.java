@@ -26,6 +26,7 @@ public class Document extends BaseEntity{
 
     private String name;
     private String description;
+    @Column(length = 2000)
     private String url;
 
     @OneToMany()

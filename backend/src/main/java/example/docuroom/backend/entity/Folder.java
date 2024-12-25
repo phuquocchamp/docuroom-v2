@@ -21,6 +21,12 @@ public class Folder {
 
     private String name;
 
+    @ManyToOne
+    @JoinColumn(
+        name = "user_id"
+    )
+    private AuthUser user;
+
     @OneToMany(
         mappedBy = "folder"
     )
