@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../pages/Login";
 import Register from "../pages/Register.tsx";
 import ForgotPassword from "../pages/ForgotPassword.tsx";
@@ -10,6 +10,7 @@ import StudyGroup from "../pages/StudyGroup.tsx";
 import Setting from "../pages/Setting.tsx";
 import Help from "../pages/Help.tsx";
 import DocDetails from "../pages/DocDetails.tsx";
+import Account from "../pages/Account.tsx";
 
 function AppRoutes() {
     const handleFileUpload = (file: File | null) => {
@@ -28,16 +29,19 @@ function AppRoutes() {
                 </Route>
 
                 <Route path="/home" element={<Layout />}>
-                    <Route index element={<Home/>} />
+                    <Route index element={<Home />} />
                     <Route path='document' element={<Document />} />
-                    <Route path="addDocument" element={<AddDocument onFileUpload={handleFileUpload}/>} />
+                    <Route path="addDocument" element={<AddDocument onFileUpload={handleFileUpload} />} />
                     <Route path='studygroup' element={<StudyGroup />} />
-                    <Route path='myaccount' element={<Document />} />
+                    <Route path='myaccount' element={<Account />} />
                     <Route path='setting' element={<Setting />} />
                     <Route path='help' element={<Help />} />
+
                 </Route>
 
-                <Route path="/item-details/:id" element={<DocDetails/>} />
+                <Route path="/" element={<Layout />}>
+                    <Route path="item-details/:id" element={<DocDetails />} />
+                </Route>
 
             </Routes>
         </BrowserRouter>
