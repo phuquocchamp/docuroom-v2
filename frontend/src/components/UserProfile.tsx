@@ -1,15 +1,35 @@
 import { useState } from "react";
 import { AiOutlineLogout } from "react-icons/ai";
+import {useNavigate} from "react-router-dom";
+import {logout} from "../services/auth.tsx";
 
-function UserProfile() {
+interface UserData {
+    fullName: string;
+    email: string;
+    school: string;
+}
+
+interface UserProfileProps {
+    userData: UserData;
+}
+
+function UserProfile({ userData }: UserProfileProps): JSX.Element {
+    const navigate = useNavigate();
+
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
 
-    const handleLogout = () => {
-        console.log("Logged out");
+    const handleLogout = async () => {
+        const success = await logout(); // Await the logout promise
+        if (success) {
+            console.log("Logged out successfully");
+            navigate("/");
+        } else {
+            console.error("Logout failed");
+        }
     };
 
     return (
@@ -21,8 +41,8 @@ function UserProfile() {
                 onClick={toggleDropdown} // Mở dropdown khi click vào avatar
             />
             <div>
-                <p className="font-semibold">KhanhLinh</p>
-                <p className="text-xs text-gray-500">VKU University</p>
+                <p className="font-semibold">{userData.fullName}</p>
+                <p className="text-xs text-gray-500">{userData.school}</p>
             </div>
 
             {/* Dropdown Menu */}

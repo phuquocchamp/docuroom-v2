@@ -27,9 +27,7 @@ export const register = async (
     }
 };
 
-export const login = async (
-    credentials: LoginCredentials,
-): Promise<boolean> => {
+export const login = async (credentials: LoginCredentials): Promise<boolean> => {
     try {
         const response = await fetch(`${API_BASE_URL}/login`, {
             method: "POST",
@@ -45,10 +43,13 @@ export const login = async (
 
         if (response.ok) {
             const data = await response.json();
-            const token = data.data.token; // Adjust according to your API response
+            const token = data.data.token;
 
             if (token) {
-                localStorage.setItem("token", token); // Store token in localStorage
+                localStorage.setItem("token", token);
+                localStorage.setItem("docuroom_fullName", data.data.fullName);
+                localStorage.setItem("docuroom_email", data.data.email);
+                localStorage.setItem("docuroom_school", data.data.school);
                 return true;
             } else {
                 throw new Error("Token not found in response");
@@ -63,6 +64,15 @@ export const login = async (
     }
 };
 
-export const logout = (): void => {
-    localStorage.removeItem("token");
+export const logout = async (): Promise<boolean> => {
+    try {
+        localStorage.removeItem("token");
+        localStorage.removeItem("docuroom_fullName");
+        localStorage.removeItem("docuroom_email");
+        localStorage.removeItem("docuroom_school");
+        return true; // Indicate successful logout
+    } catch (error) {
+        console.error("Error during logout:", error);
+        return false; // Indicate logout failure
+    }
 };

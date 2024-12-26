@@ -3,19 +3,48 @@ import { TbMessageFilled } from "react-icons/tb";
 import { CiSearch } from "react-icons/ci";
 import UserProfile from "./UserProfile";
 import { useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+
+interface UserData{
+  fullName: string;
+  email: string;
+  school: string;
+}
 
 function Header() {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState<UserData>({
+    fullName: "",
+    email: "",
+    school: "",
+  });
+
+  useEffect(() => {
+    const fullName = localStorage.getItem("docuroom_fullName");
+    const email = localStorage.getItem("docuroom_email");
+    const school = localStorage.getItem("docuroom_school");
+
+    if(fullName && email && school){
+      setUserData({
+        fullName: fullName,
+        email: email,
+        school: school,
+      });
+    }
+
+  }, []);
 
   const handleSearchClick = () => {
     navigate("/search");
   };
 
+
+
   return (
     <div className="flex items-center justify-between p-4 px-10 flex-wrap">
       {/* Welcome Text */}
       <div className="w-full sm:w-auto">
-        <h1 className="text-xl font-semibold text-blue-600">Welcome back, Khanh Linh!</h1>
+        <h1 className="text-xl font-semibold text-blue-600">Welcome back, {userData.fullName}!</h1>
       </div>
 
       {/* Search Bar and Buttons */}
@@ -46,7 +75,7 @@ function Header() {
       </div>
 
       {/* User Profile */}
-      <UserProfile />
+      <UserProfile userData={userData} />
     </div>
   );
 }

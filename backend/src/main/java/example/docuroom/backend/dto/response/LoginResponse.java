@@ -13,5 +13,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponse {
+  private String fullName;
+  private String email;
+  private String school;
   private String token;
 }

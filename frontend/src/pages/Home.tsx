@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import Category from '../components/Category';
 import DocumentItems from '../components/DocumentItems';
 
 function Home() {

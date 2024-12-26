@@ -3,30 +3,30 @@ import {BsThreeDotsVertical} from 'react-icons/bs';
 import {VscNewFolder} from 'react-icons/vsc';
 import {IoCloseCircleOutline} from 'react-icons/io5';
 import {Link} from 'react-router-dom';
+import {FolderRequest} from "../types/folder.tsx";
 
 function MyFolder(): JSX.Element {
     const [activePopup, setActivePopup] = useState<number | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-
     const folders = [
-        { title: "Korean", id: 1 },
-        { title: "Computer Network",  id: 2 },
-        { title: "Software",  id: 3 },
-        { title: "English",  id: 4 },
+        { name: "Korean", id: 1 },
+        { name: "Computer Network",  id: 2 },
+        { name: "Software",  id: 3 },
+        { name: "English",  id: 4 },
     ]
 
     const handlePopupToggle = (index: number): void => {
         setActivePopup((prev) => (prev === index ? null : index));
     };
 
-    const handleRename = (folders: string): void => {
+    const handleRename = (folders: FolderRequest): void => {
         console.log(`Rename ${folders}`);
         setActivePopup(null);
     };
 
-    const handleDelete = (folders: string): void => {
+    const handleDelete = (folders: FolderRequest): void => {
         console.log(`Delete ${folders}`);
         setActivePopup(null);
     };
@@ -96,8 +96,8 @@ function MyFolder(): JSX.Element {
                         className="relative bg-white rounded-lg px-6 py-4 shadow-lg flex items-center space-x-4 hover:shadow-2xl transition-shadow duration-300 ease-in-out"
                         key={index} to={`/folder-details/${folders.id}`}
                     >
-                        <img src="/group/folder.png" alt={folders.title} className="w-12 h-12" />
-                        <p className="font-semibold text-base flex-1">{folders.title}</p>
+                        <img src="/group/folder.png" alt={folders.name} className="w-12 h-12" />
+                        <p className="font-semibold text-base flex-1">{folders.name}</p>
                         <button
                             onClick={() => handlePopupToggle(index)}
                             className="text-gray-600 hover:text-blue-500 transition duration-200"
