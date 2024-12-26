@@ -15,7 +15,7 @@ const getHeaders = (): Headers => {
 
 export const createFolder = async (
     folderRequest: FolderRequest,
-): Promise<FolderResponse> => {
+): Promise<any> => {
 
     const response = await fetch(`${API_BASE_URL}`, {
         method: "POST",

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {ReactElement, useState} from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { HiOutlineDocumentArrowUp } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,7 @@ interface Document {
     id: number;
 }
 
-function MyDocument(): JSX.Element {
+function MyDocument(): ReactElement {
     const [activePopup, setActivePopup] = useState<number | null>(null);
     const navigate = useNavigate();
 
