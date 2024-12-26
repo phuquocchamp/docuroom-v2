@@ -3,6 +3,7 @@ package example.docuroom.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,4 +34,7 @@ public class AuthUser {
         mappedBy = "user"
     )
     private Set<Folder> folders;
+
+    @OneToMany(mappedBy = "user")
+    private List<Document> documents;
 }

@@ -4,10 +4,14 @@ server:
 logging:
   level:
     org.springframework.security: info
+    org.springframework.data.elasticsearch: DEBUG # Optional: Elasticsearch logging
+    org.elasticsearch.client: TRACE # Optional: Elasticsearch client logging
   pattern.console: ${LOG_PATTERN_CONSOLE:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n}
+
 spring:
   application:
     name: "backend"
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -20,6 +24,11 @@ spring:
     username: ${MYSQL_DATABASE_USERNAME:root}
     password: ${MYSQL_DATABASE_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  elasticsearch:
+    uris: http://localhost:9200
+    username: ${ELASTICSEARCH_USERNAME:elastic}
+    password: ${ELASTICSEARCH_PASSWORD:02Ii=_p*fZNK=7+pC8Xh}
 
   servlet:
     multipart:

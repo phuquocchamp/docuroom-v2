@@ -85,20 +85,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(TagAlreadyExitsException.class)
-    public ResponseEntity<ErrorResponse> handleTagAlreadyExitsException(
-            TagAlreadyExitsException tagAlreadyExitsException,
-            WebRequest webRequest
-    ) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                webRequest.getDescription(false),
-                HttpStatus.NOT_FOUND,
-                tagAlreadyExitsException.getMessage(),
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
+   
     @ExceptionHandler(EmailAlreadyExitsException.class)
     public ResponseEntity<ErrorResponse> handleEmailAlreadyExitsException(
             EmailAlreadyExitsException emailAlreadyExitsException,

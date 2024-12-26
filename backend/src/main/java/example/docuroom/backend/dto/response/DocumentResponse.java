@@ -1,4 +1,4 @@
-package example.docuroom.backend.dto;
+package example.docuroom.backend.dto.response;
 
 
 import lombok.AllArgsConstructor;
@@ -13,6 +13,8 @@ public class DocumentResponse {
     private Long id;
     private String name;
     private String url;
+    private String tags;
+    private Boolean isMark;
     private String folder;
     private String description;
 }

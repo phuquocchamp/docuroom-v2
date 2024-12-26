@@ -11,5 +11,6 @@ public class DocumentRequest {
     private String name;
     private String url;
     private String folder;
+    private String tags;
     private String description;
 }

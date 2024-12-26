@@ -38,9 +38,6 @@ public class FolderServiceImpl implements IFolderService {
         if (folderRequest == null || folderRequest.getName().isEmpty()) {
             throw new IllegalArgumentException("Folder name cannot be empty");
         }
-        if (folderRepository.existsByName(folderRequest.getName())) {
-            throw new ResourceExitsException("Folder with name '" + folderRequest.getName() + "' already exists");
-        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
@@ -70,8 +67,8 @@ public class FolderServiceImpl implements IFolderService {
 
         AuthUser user = authRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", userEmail));
-
-        return user.getFolders().stream().map(folder -> modelMapper.map(folder, FolderResponse.class)).toList();
+        List<Folder> folders = folderRepository.findAllByUser(user);
+        return folders.stream().map(folder -> modelMapper.map(folder, FolderResponse.class)).toList();
     }
 
 
