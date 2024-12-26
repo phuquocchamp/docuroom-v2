@@ -1,9 +1,5 @@
-
-
 function StudyGroup() {
-  return (
-    <div>StudyGroup</div>
-  )
+    return <div>StudyGroup</div>;
 }
 
-export default StudyGroup
+export default StudyGroup;

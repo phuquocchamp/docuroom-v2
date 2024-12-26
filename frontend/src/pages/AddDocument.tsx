@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { BsCloudUpload } from 'react-icons/bs';
+import React, { useState, useRef } from "react";
+import { BsCloudUpload } from "react-icons/bs";
 
 interface FileUploadProps {
     onFileUpload: (file: File | null) => void;
@@ -9,7 +9,9 @@ const AddDocument: React.FC<FileUploadProps> = ({ onFileUpload }) => {
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleFileUpload = (
+        event: React.ChangeEvent<HTMLInputElement>,
+    ): void => {
         const file = event.target.files?.[0] || null;
         setUploadedFile(file);
         onFileUpload(file); // Gọi hàm onFileUpload để xử lý file
@@ -21,7 +23,9 @@ const AddDocument: React.FC<FileUploadProps> = ({ onFileUpload }) => {
 
     return (
         <div className="max-w-6xl mx-auto p-8 bg-white shadow-lg rounded-xl">
-            <h1 className="text-2xl font-bold mb-8 text-center">Add Document</h1>
+            <h1 className="text-2xl font-bold mb-8 text-center">
+                Add Document
+            </h1>
 
             <div className="flex gap-6 items-start mb-8">
                 <div className="w-2/3 p-6 border-4 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-600">
@@ -37,7 +41,9 @@ const AddDocument: React.FC<FileUploadProps> = ({ onFileUpload }) => {
                         className="cursor-pointer flex flex-col items-center"
                     >
                         <BsCloudUpload className="w-24 h-24" />
-                        <p className="text-lg">Select a file or drag and drop here</p>
+                        <p className="text-lg">
+                            Select a file or drag and drop here
+                        </p>
                         <button
                             onClick={handleButtonClick}
                             className="px-6 py-3 bg-blue-500 text-white text-lg font-medium rounded-lg hover:bg-blue-600"
@@ -50,16 +56,20 @@ const AddDocument: React.FC<FileUploadProps> = ({ onFileUpload }) => {
                 <div className="w-1/3">
                     {uploadedFile ? (
                         <div className="border rounded-lg p-6 bg-gray-50">
-                            <p className="font-medium text-lg">{uploadedFile.name}</p>
+                            <p className="font-medium text-lg">
+                                {uploadedFile.name}
+                            </p>
                             <div className="relative mt-4 h-3 bg-gray-300 rounded-full">
                                 <div
                                     className="absolute top-0 left-0 h-3 bg-blue-500 rounded-full"
-                                    style={{ width: '100%' }}
+                                    style={{ width: "100%" }}
                                 ></div>
                             </div>
                         </div>
                     ) : (
-                        <p className="text-gray-500 text-lg">No file uploaded yet.</p>
+                        <p className="text-gray-500 text-lg">
+                            No file uploaded yet.
+                        </p>
                     )}
                 </div>
             </div>
@@ -80,7 +90,10 @@ const AddDocument: React.FC<FileUploadProps> = ({ onFileUpload }) => {
                 </div>
 
                 <div>
-                    <label htmlFor="folder" className="block font-semibold text-lg mb-4">
+                    <label
+                        htmlFor="folder"
+                        className="block font-semibold text-lg mb-4"
+                    >
                         Folder
                     </label>
                     <select

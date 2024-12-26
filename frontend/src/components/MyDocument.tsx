@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { HiOutlineDocumentArrowUp } from 'react-icons/hi2';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
 interface Document {
     title: string;
@@ -17,31 +17,31 @@ function MyDocument(): JSX.Element {
 
     const documents: Document[] = [
         {
-            title: 'Giáo trình lập trình mạng',
-            date: '12/10/2023',
-            user: 'Khanh Linh',
-            imgSrc: '/doc/GiaoTrinhLTM.png',
+            title: "Giáo trình lập trình mạng",
+            date: "12/10/2023",
+            user: "Khanh Linh",
+            imgSrc: "/doc/GiaoTrinhLTM.png",
             id: 1,
         },
         {
-            title: 'Bài tập giải tích',
-            date: '12/10/2023',
-            user: 'Phu Quoc',
-            imgSrc: '/doc/GiaiTich.jpg',
+            title: "Bài tập giải tích",
+            date: "12/10/2023",
+            user: "Phu Quoc",
+            imgSrc: "/doc/GiaiTich.jpg",
             id: 2,
         },
         {
-            title: 'Đề Thi tiếng Hàn',
-            date: '12/10/2023',
-            user: 'Khanh Linh',
-            imgSrc: '/doc/Korean.jpg',
+            title: "Đề Thi tiếng Hàn",
+            date: "12/10/2023",
+            user: "Khanh Linh",
+            imgSrc: "/doc/Korean.jpg",
             id: 3,
         },
         {
-            title: 'Tổng hợp ngữ pháp tiếng Anh cơ bản',
-            date: '12/10/2023',
-            user: 'Phu Quoc',
-            imgSrc: '/doc/TiengAnh.jpg',
+            title: "Tổng hợp ngữ pháp tiếng Anh cơ bản",
+            date: "12/10/2023",
+            user: "Phu Quoc",
+            imgSrc: "/doc/TiengAnh.jpg",
             id: 4,
         },
     ];
@@ -61,7 +61,7 @@ function MyDocument(): JSX.Element {
     };
 
     const handleClick = (): void => {
-        navigate('/home/addDocument');
+        navigate("/home/addDocument");
     };
 
     return (
