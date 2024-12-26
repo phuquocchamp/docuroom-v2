@@ -1,21 +1,58 @@
-import {useState} from 'react';
+import {ReactElement, useEffect, useState} from 'react';
 import {BsThreeDotsVertical} from 'react-icons/bs';
 import {VscNewFolder} from 'react-icons/vsc';
 import {IoCloseCircleOutline} from 'react-icons/io5';
 import {Link} from 'react-router-dom';
-import {FolderRequest} from "../types/folder.tsx";
+import {FolderRequest, FolderResponse} from "../types/folder.ts";
+import {createFolder, getAllFolders} from "../services/folder.tsx";
 
-function MyFolder(): JSX.Element {
+
+
+function MyFolder(): ReactElement {
     const [activePopup, setActivePopup] = useState<number | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [folders, setFolders] = useState<FolderResponse[]>([]);
+    const [newFolderName, setNewFolderName] = useState("");
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const fetchedFolders = await getAllFolders();
+                setFolders(fetchedFolders);
+            } catch (error) {
+                console.error("Error fetching folders:", error);
+            }
+        };
 
-    const folders = [
-        { name: "Korean", id: 1 },
-        { name: "Computer Network",  id: 2 },
-        { name: "Software",  id: 3 },
-        { name: "English",  id: 4 },
-    ]
+        fetchData();
+    }, []);
+
+    const openModal = (): void => {
+        setIsModalOpen(true);
+        setNewFolderName("")
+    }
+    const closeModal = (): void => setIsModalOpen(false);
+
+    const handleCreateFolder = async () => {
+      const newFolder : FolderRequest = {
+          name: newFolderName,
+      };
+      try{
+          const response = await createFolder(newFolder);
+          if(response && response.data){
+              setFolders([...folders, response.data]);
+              closeModal();
+              setNewFolderName("");
+          }
+
+      }catch (error){
+          console.error("Error creating folder:", error);
+      }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewFolderName(e.target.value);
+    }
 
     const handlePopupToggle = (index: number): void => {
         setActivePopup((prev) => (prev === index ? null : index));
@@ -30,10 +67,6 @@ function MyFolder(): JSX.Element {
         console.log(`Delete ${folders}`);
         setActivePopup(null);
     };
-
-    const openModal = (): void => setIsModalOpen(true);
-
-    const closeModal = (): void => setIsModalOpen(false);
 
     return (
         <div>
@@ -63,22 +96,12 @@ function MyFolder(): JSX.Element {
                                     type="text"
                                     placeholder="Enter folder name"
                                     className="w-full mb-4 p-2 border rounded"
+                                    value={newFolderName}
+                                    onChange={handleInputChange}
                                 />
 
-                                <div className="mb-4">
-                                    <label className="block mb-2 font-semibold">
-                                        Select Document(s):
-                                    </label>
-                                    <select className="w-full p-2 border rounded">
-                                        <option>Select a document</option>
-                                        <option>Document 1</option>
-                                        <option>Document 2</option>
-                                        <option>Document 3</option>
-                                    </select>
-                                </div>
-
                                 <button
-                                    onClick={closeModal}
+                                    onClick={handleCreateFolder}
                                     className="flex items-center gap-2 px-4 py-2 bg-blue-500 shadow-md text-white font-medium rounded-full hover:bg-blue-600 transition"
                                 >
                                     <VscNewFolder className="text-xl" />
@@ -89,7 +112,7 @@ function MyFolder(): JSX.Element {
                     )}
                 </div>
             </div>
-
+            {/*FOLDER LIST*/}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mb-6">
                 {folders.map((folders, index) => (
                     <Link
