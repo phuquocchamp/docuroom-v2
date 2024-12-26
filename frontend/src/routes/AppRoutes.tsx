@@ -11,6 +11,8 @@ import Setting from "../pages/Setting.tsx";
 import Help from "../pages/Help.tsx";
 import DocDetails from "../pages/DocDetails.tsx";
 import Account from "../pages/Account.tsx";
+import FolderDetail from "../pages/FolderDetail.tsx";
+import Search from "../pages/Search.tsx";
 
 function AppRoutes() {
     const handleFileUpload = (file: File | null) => {
@@ -41,7 +43,11 @@ function AppRoutes() {
 
                 <Route path="/" element={<Layout />}>
                     <Route path="item-details/:id" element={<DocDetails />} />
+                    <Route path="folder-details/:id" element={<FolderDetail />} />
+                    <Route path="/search" element={<Search />} />
                 </Route>
+
+             
 
             </Routes>
         </BrowserRouter>
