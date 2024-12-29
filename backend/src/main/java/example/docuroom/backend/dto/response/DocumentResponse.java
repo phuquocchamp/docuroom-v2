@@ -17,4 +17,6 @@ public class DocumentResponse {
     private Boolean isMark;
     private String folder;
     private String description;
+    private String createdAt;
+    private String createdBy;
 }

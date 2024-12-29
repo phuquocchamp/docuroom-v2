@@ -1,12 +1,10 @@
-import {ReactElement, useEffect, useState} from 'react';
-import {BsThreeDotsVertical} from 'react-icons/bs';
-import {VscNewFolder} from 'react-icons/vsc';
-import {IoCloseCircleOutline} from 'react-icons/io5';
-import {Link} from 'react-router-dom';
-import {FolderRequest, FolderResponse} from "../types/folder.ts";
-import {createFolder, getAllFolders} from "../services/folder.tsx";
-
-
+import { ReactElement, useEffect, useState } from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { VscNewFolder } from "react-icons/vsc";
+import { IoCloseCircleOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { FolderRequest, FolderResponse } from "../types/folder.ts";
+import { createFolder, getAllFolders } from "../services/folder.tsx";
 
 function MyFolder(): ReactElement {
     const [activePopup, setActivePopup] = useState<number | null>(null);
@@ -29,30 +27,29 @@ function MyFolder(): ReactElement {
 
     const openModal = (): void => {
         setIsModalOpen(true);
-        setNewFolderName("")
-    }
+        setNewFolderName("");
+    };
     const closeModal = (): void => setIsModalOpen(false);
 
     const handleCreateFolder = async () => {
-      const newFolder : FolderRequest = {
-          name: newFolderName,
-      };
-      try{
-          const response = await createFolder(newFolder);
-          if(response && response.data){
-              setFolders([...folders, response.data]);
-              closeModal();
-              setNewFolderName("");
-          }
-
-      }catch (error){
-          console.error("Error creating folder:", error);
-      }
+        const newFolder: FolderRequest = {
+            name: newFolderName,
+        };
+        try {
+            const response = await createFolder(newFolder);
+            if (response && response.data) {
+                setFolders([...folders, response.data]);
+                closeModal();
+                setNewFolderName("");
+            }
+        } catch (error) {
+            console.error("Error creating folder:", error);
+        }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewFolderName(e.target.value);
-    }
+    };
 
     const handlePopupToggle = (index: number): void => {
         setActivePopup((prev) => (prev === index ? null : index));
@@ -117,10 +114,17 @@ function MyFolder(): ReactElement {
                 {folders.map((folders, index) => (
                     <Link
                         className="relative bg-white rounded-lg px-6 py-4 shadow-lg flex items-center space-x-4 hover:shadow-2xl transition-shadow duration-300 ease-in-out"
-                        key={index} to={`/folder-details/${folders.id}`}
+                        key={index}
+                        to={`/folder-details/${folders.id}`}
                     >
-                        <img src="/group/folder.png" alt={folders.name} className="w-12 h-12" />
-                        <p className="font-semibold text-base flex-1">{folders.name}</p>
+                        <img
+                            src="/group/folder.png"
+                            alt={folders.name}
+                            className="w-12 h-12"
+                        />
+                        <p className="font-semibold text-base flex-1">
+                            {folders.name}
+                        </p>
                         <button
                             onClick={() => handlePopupToggle(index)}
                             className="text-gray-600 hover:text-blue-500 transition duration-200"

@@ -55,6 +55,7 @@ public class DocumentServiceImpl implements IDocumentService {
         document.setFolder(folder);
         document.setTags(documentRequest.getTags());
         document.setUser(user);
+
         Document savedDocument = documentRepository.save(document);
 
         // Index document vào Elasticsearch
@@ -68,7 +69,8 @@ public class DocumentServiceImpl implements IDocumentService {
         documentResponse.setTags(savedDocument.getTags());
         documentResponse.setDescription(savedDocument.getDescription());
         documentResponse.setFolder(savedDocument.getFolder().getName());
-
+        documentResponse.setCreatedAt(savedDocument.getCreatedAt().toString());
+        documentResponse.setCreatedBy(savedDocument.getCreatedBy());
 
         return documentResponse;
     }
@@ -110,8 +112,33 @@ public class DocumentServiceImpl implements IDocumentService {
                         document.getUrl(),
                         document.getTags(),
                         document.getIsMark(),
+                        document.getFolder().getName(),
                         document.getDescription(),
-                        document.getFolder().getName()))
+                        document.getCreatedAt().toString(),
+                        document.getCreatedBy()
+                        ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DocumentResponse> getDocumentsByUser() {
+
+        AuthUser user = getCurrentUser();
+        List<Document> documents = user.getDocuments();
+
+        return documents.stream()
+                .map(document -> new DocumentResponse(
+                        document.getId(),
+                        document.getName(),
+                        document.getUrl(),
+                        document.getTags(),
+                        document.getIsMark(),
+                        document.getFolder().getName(),
+                        document.getDescription(),
+                        document.getCreatedAt().toString(),
+                        document.getCreatedBy())
+
+                       )
                 .collect(Collectors.toList());
     }
 
@@ -140,47 +167,69 @@ public class DocumentServiceImpl implements IDocumentService {
                         document.getUrl(),
                         document.getTags(),
                         document.getIsMark(),
+                        document.getFolder().getName(),
                         document.getDescription(),
-                        document.getFolder().getName()))
+                        document.getCreatedAt().toString(),
+                        document.getCreatedBy())
+                )
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<CommentResponse> addComment(String folderName, Long documentId, CommentRequest commentRequest) {
+    public DocumentResponse getDocumentById(Long documentId) {
+        Document document = documentRepository.findById(documentId).orElseThrow(() -> new ResourceNotFoundException("DOCUMENT", "ID", documentId.toString()));
 
-        AuthUser user = getCurrentUser();
-        Folder folder = folderRepository.findByUserAndName(user, folderName).orElseThrow(() -> new ResourceNotFoundException("FOLDER", "NAME", folderName));
+        return new DocumentResponse(
+                document.getId(),
+                document.getName(),
+                document.getUrl(),
+                document.getTags(),
+                document.getIsMark(),
+                document.getFolder().getName(),
+                document.getDescription(),
+                document.getCreatedAt().toString(),
+                document.getCreatedBy()
+        );
+    }
+
+    @Override
+    public CommentResponse addComment(String folderName, Long documentId, CommentRequest commentRequest) {
+
+        AuthUser currentUser = getCurrentUser();
+        Folder folder = folderRepository.findByUserAndName(currentUser, folderName).orElseThrow(() -> new ResourceNotFoundException("FOLDER", "NAME", folderName));
 
         Document document = documentRepository.findByIdAndFolder(documentId, folder).orElseThrow(() -> new ResourceNotFoundException("DOCUMENT", "ID", documentId.toString()));
 
 
         Comment newComment = new Comment();
         newComment.setDocument(document);
-        newComment.setAuthor(user.getEmail());
+        newComment.setUser(currentUser);
         newComment.setMessage(commentRequest.getMessage());
 
         commentRepository.save(newComment);
+        CommentResponse commentResponse = new CommentResponse();
+        commentResponse.setId(newComment.getCommentID());
+        commentResponse.setMessage(newComment.getMessage());
+        commentResponse.setUser(newComment.getUser().getEmail());
+        commentResponse.setCreatedAt(newComment.getCreatedAt().toString());
 
-        List<Comment> comments = commentRepository.findByDocumentOrderByTimeCreatedDesc(document);
-
-        return comments.stream()
-            .map(comment -> modelMapper.map(comment, CommentResponse.class))
-            .collect(Collectors.toList()
-        );
+        return commentResponse;
     }
 
     @Override
     public List<CommentResponse> getComments(String folderName, Long documentId) {
         AuthUser user = getCurrentUser();
         Folder folder = folderRepository.findByUserAndName(user, folderName).orElseThrow(() -> new ResourceNotFoundException("FOLDER", "NAME", folderName));
-
         Document document = documentRepository.findByIdAndFolder(documentId, folder).orElseThrow(() -> new ResourceNotFoundException("DOCUMENT", "ID", documentId.toString()));
-
-
-        List<Comment> comments = commentRepository.findByDocumentOrderByTimeCreatedDesc(document);
+        List<Comment> comments = commentRepository.findByDocumentOrderByCreatedAtDesc(document);
 
         return comments.stream()
-                .map(comment -> modelMapper.map(comment, CommentResponse.class))
+                .map(comment -> new CommentResponse(
+                        comment.getCommentID(),
+                        comment.getMessage(),
+                        comment.getUser().getEmail(),
+                        comment.getCreatedAt().toString()
+                ))
                 .collect(Collectors.toList());
     }
     @Override
@@ -231,24 +280,7 @@ public class DocumentServiceImpl implements IDocumentService {
                 .map(this::convertToDocumentResponse)
                 .collect(Collectors.toList());
     }
-//    @Override
-//    public List<DocumentResponse> searchDocumentsByTag(String tags) {
-//        String[] searchTags = tags.split("\\s+");
-//        Map<String, Integer> documentCounts = new HashMap<>();
-//        List<DocumentES> matchingDocuments = Arrays.stream(searchTags)
-//                .parallel() // Consider using parallelStream
-//                .map(searchTag -> searchTag.startsWith("#") ? searchTag.substring(1) : searchTag)
-//                .flatMap(cleanTag -> documentESRepository.findByTagsUsingCustomQuery(cleanTag, PageRequest.of(0, 10)).stream())
-//                .filter(Objects::nonNull)
-//                .peek(doc -> documentCounts.put(doc.getId(), documentCounts.getOrDefault(doc.getId(), 0) + 1))
-//                .sorted((doc1, doc2) -> documentCounts.get(doc2.getId()).compareTo(documentCounts.get(doc1.getId())))
-//                .filter(doc -> documentCounts.putIfAbsent(doc.getId(), 0) == null)
-//                .toList();
-//
-//        return matchingDocuments.stream()
-//                .map(this::convertToDocumentResponse)
-//                .collect(Collectors.toList());
-//    }
+
 
     private DocumentES convertToDocumentES(Document document) {
         DocumentES documentES = new DocumentES();

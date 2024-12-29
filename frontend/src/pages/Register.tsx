@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import { FaGoogle, FaFacebookF } from "react-icons/fa";
-import { RiInstagramFill } from "react-icons/ri";
-import { register } from "../services/auth.tsx";
-import { useState } from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {FaFacebookF, FaGoogle} from "react-icons/fa";
+import {RiInstagramFill} from "react-icons/ri";
+import {register} from "../services/auth.tsx";
+import {useState} from "react";
 
 function Register() {
     const [fullName, setFullName] = useState("");

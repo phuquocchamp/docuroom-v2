@@ -1,4 +1,4 @@
-import {FolderRequest, FolderResponse} from "../types/folder.ts";
+import { FolderRequest, FolderResponse } from "../types/folder.ts";
 
 const API_BASE_URL = "http://localhost:8080/v1/api/folder";
 
@@ -16,7 +16,6 @@ const getHeaders = (): Headers => {
 export const createFolder = async (
     folderRequest: FolderRequest,
 ): Promise<any> => {
-
     const response = await fetch(`${API_BASE_URL}`, {
         method: "POST",
         headers: getHeaders(),
@@ -24,7 +23,7 @@ export const createFolder = async (
     });
 
     if (!response.ok) {
-        throw new Error('Failed to create folder');
+        throw new Error("Failed to create folder");
     }
 
     return await response.json();
@@ -62,7 +61,6 @@ export const getAllFolders = async (): Promise<FolderResponse[]> => {
         }
 
         const data = await response.json();
-        console.log("data in service:", data);
         return data.data as FolderResponse[];
     } catch (error) {
         console.error("ERROR fetching folders:", error);

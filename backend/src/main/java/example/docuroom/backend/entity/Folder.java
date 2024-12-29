@@ -17,6 +17,7 @@ import java.util.List;
 public class Folder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "folder_id")
     private Long id;
 
     private String name;

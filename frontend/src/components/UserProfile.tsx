@@ -26,7 +26,7 @@ function UserProfile({ userData }: UserProfileProps): JSX.Element {
         const success = await logout(); // Await the logout promise
         if (success) {
             console.log("Logged out successfully");
-            navigate("/");
+            navigate("/auth/login");
         } else {
             console.error("Logout failed");
         }

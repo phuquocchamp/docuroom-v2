@@ -1,69 +1,46 @@
-import {ReactElement, useState} from 'react';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { HiOutlineDocumentArrowUp } from 'react-icons/hi2';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-
-
-interface Document {
-    title: string;
-    date: string;
-    user: string;
-    imgSrc: string;
-    id: number;
-}
+import { ReactElement, useEffect, useState } from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { DocumentResponse } from "../types/document";
+import { getDocumentsByUser } from "../services/document";
 
 function MyDocument(): ReactElement {
-    const [activePopup, setActivePopup] = useState<number | null>(null);
     const navigate = useNavigate();
 
-    const documents: Document[] = [
-        {
-            title: 'Giáo trình lập trình mạng',
-            date: '12/10/2023',
-            user: 'Khanh Linh',
-            imgSrc: '/doc/GiaoTrinhLTM.png',
-            id: 1,
-        },
-        {
-            title: 'Bài tập giải tích',
-            date: '12/10/2023',
-            user: 'Phu Quoc',
-            imgSrc: '/doc/GiaiTich.jpg',
-            id: 2,
-        },
-        {
-            title: 'Đề Thi tiếng Hàn',
-            date: '12/10/2023',
-            user: 'Khanh Linh',
-            imgSrc: '/doc/Korean.jpg',
-            id: 3,
-        },
-        {
-            title: 'Tổng hợp ngữ pháp tiếng Anh cơ bản',
-            date: '12/10/2023',
-            user: 'Phu Quoc',
-            imgSrc: '/doc/TiengAnh.jpg',
-            id: 4,
-        },
-    ];
+    const [activePopup, setActivePopup] = useState<number | null>(null);
+    const [documents, setDocuments] = useState<DocumentResponse[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getDocumentsByUser();
+                setDocuments(response);
+            } catch (error) {
+                console.error("Error fetching documents:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handlePopupToggle = (id: number): void => {
         setActivePopup((prev) => (prev === id ? null : id));
     };
 
-    const handleRename = (doc: Document): void => {
-        console.log(`Rename ${doc.title}`);
+    const handleRename = (doc: DocumentResponse): void => {
+        console.log(`Rename ${doc.name}`);
         setActivePopup(null);
     };
 
-    const handleDelete = (doc: Document): void => {
-        console.log(`Delete ${doc.title}`);
+    const handleDelete = (doc: DocumentResponse): void => {
+        console.log(`Delete ${doc.name}`);
         setActivePopup(null);
     };
 
     const handleClick = (): void => {
-        navigate('/home/addDocument');
+        navigate("/upload-document");
     };
 
     return (
@@ -81,22 +58,23 @@ function MyDocument(): ReactElement {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6">
                 {documents.map((doc) => (
                     <Link
-                    key={doc.id} to={`/item-details/${doc.id}`}
+                        key={doc.id}
+                        to={`/item-details/${doc.id}`}
                         className="relative bg-white rounded-lg shadow-lg p-6 flex flex-col hover:shadow-xl transition-shadow duration-300 ease-in-out"
                     >
                         <img
-                            src={doc.imgSrc}
-                            alt={doc.title}
+                            src={"/public/doc/document.jpg"}
+                            alt={doc.name}
                             className="h-32 w-full object-cover rounded-md mb-4"
                         />
 
                         <h3 className="font-semibold text-base text-gray-800 mb-2">
-                            {doc.title}
+                            {doc.name}
                         </h3>
 
                         <div className="flex justify-between items-center mb-2 text-sm text-gray-500">
-                            <p>{doc.date}</p>
-                            <p>Posted by {doc.user}</p>
+                            {/* <p>{doc.createdAt}</p> */}
+                            <p>Tags: {doc.tags}</p>
                         </div>
 
                         <div className="flex justify-end">

@@ -12,9 +12,11 @@ public interface IDocumentService {
     DocumentResponse markDocument(Long documentId);
 
     List<DocumentResponse> getDocuments(String folder);
+    List<DocumentResponse> getDocumentsByUser();
     List<DocumentResponse> getBookmarks();
+    DocumentResponse getDocumentById(Long documentId);
 
-    List<CommentResponse> addComment(String folderName, Long documentId, CommentRequest commentRequest);
+    CommentResponse addComment(String folderName, Long documentId, CommentRequest commentRequest);
     List<CommentResponse> getComments(String folderName, Long documentId);
 
     List<DocumentResponse> searchDocumentsByTag(String tag);

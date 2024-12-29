@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
-import { FaGoogle, FaFacebookF } from "react-icons/fa";
-import { RiInstagramFill } from "react-icons/ri";
-import { useState } from "react";
-import { login } from "../services/auth"; // Update path if necessary
-import { LoginCredentials } from "../types/auth"; // Update path if necessary
+import {Link, useNavigate} from "react-router-dom";
+import {FaFacebookF, FaGoogle} from "react-icons/fa";
+import {RiInstagramFill} from "react-icons/ri";
+import {useState} from "react";
+import {login} from "../services/auth"; // Update path if necessary
+import {LoginCredentials} from "../types/auth"; // Update path if necessary
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -51,7 +51,7 @@ function Login() {
             <div className="w-full md:w-1/2 h-full flex flex-col justify-center items-center bg-white px-8 md:px-16 relative">
                 {/* Logo */}
                 <img
-                    src="logodocuroom.png"
+                    src="../../logodocuroom.png"
                     alt="Logo"
                     className="absolute top-12 left-12 md:left-24 w-40 h-auto"
                 />

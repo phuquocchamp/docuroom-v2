@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1/api/document")
+@RequestMapping("v1/api/documents")
 public class DocumentController {
     private final IDocumentService documentService;
 
     public DocumentController(IDocumentService documentService){
         this.documentService = documentService;
     }
-
 
     @GetMapping("/welcome")
     public String welcome(){
@@ -39,7 +38,7 @@ public class DocumentController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PostMapping("/mark/{document_id}")
+    @PatchMapping("/bookmarks/{document_id}")
     public ResponseEntity<ApiResponse<DocumentResponse>> markDocument(@PathVariable("document_id") Long document_id){
         ApiResponse<DocumentResponse> response = new ApiResponse<>();
 
@@ -70,14 +69,35 @@ public class DocumentController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping()
+    public ResponseEntity<ApiResponse<List<DocumentResponse>>> fetchDocumentsByUser(){
+        ApiResponse<List<DocumentResponse>> response = new ApiResponse<>();
+        response.setStatus(HttpStatus.OK.value());
+        response.setMessage("DOCUMENTS FETCHED SUCCESSFULLY");
+        response.setData(documentService.getDocumentsByUser());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/id/{document_id}")
+    public ResponseEntity<ApiResponse<DocumentResponse>> fetchDocumentById(@PathVariable("document_id") Long document_id){
+        ApiResponse<DocumentResponse> response = new ApiResponse<>();
+        response.setStatus(HttpStatus.OK.value());
+        response.setMessage("DOCUMENTS FETCHED SUCCESSFULLY");
+        response.setData(documentService.getDocumentById(document_id));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     // /v1/api/document/{folder}/{document_id}/comments
     @PostMapping("/{folder}/{document_id}/comments")
-    public ResponseEntity<ApiResponse<List<CommentResponse>>> addComment(
+    public ResponseEntity<ApiResponse<CommentResponse>> addComment(
             @PathVariable("folder") String folder,
             @PathVariable("document_id") Long document_id,
             @RequestBody CommentRequest commentRequest
     ){
-        ApiResponse<List<CommentResponse>> response = new ApiResponse<>();
+        ApiResponse<CommentResponse> response = new ApiResponse<>();
 
         response.setStatus(HttpStatus.CREATED.value());
         response.setMessage("COMMENT ADDED SUCCESSFULLY");

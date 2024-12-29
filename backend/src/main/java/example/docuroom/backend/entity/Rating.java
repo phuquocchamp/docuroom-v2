@@ -22,6 +22,14 @@ public class Rating extends BaseEntity{
     @Column(name = "rating_id")
     private Long ratingID;
 
-    private int star;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private AuthUser user;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "document_id", referencedColumnName = "document_id")
+    private Document document;
+
+    private int ratting;
 
 }

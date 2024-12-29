@@ -1,6 +1,5 @@
 package example.docuroom.backend.dto.response;
 
-import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CommentResponse {
     private long id;
-    private String documentId;
     private String message;
-    private String author;
-    private String timeCreated;
+    private String user;
+    private String createdAt;
 }

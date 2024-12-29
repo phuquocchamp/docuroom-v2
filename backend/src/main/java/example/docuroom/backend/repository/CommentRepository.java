@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findByDocumentOrderByTimeCreatedDesc(Document document);
+    List<Comment> findByDocumentOrderByCreatedAtDesc(Document document);
 }

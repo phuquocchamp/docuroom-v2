@@ -1,4 +1,5 @@
 package example.docuroom.backend.controller;
+import example.docuroom.backend.dto.response.ApiResponse;
 import example.docuroom.backend.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -13,23 +14,33 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("v1/api/file")
-public class S3Controller {
+@RequestMapping("v1/api/files")
+public class FileController {
+    private final S3Service s3Service;
+    private static final long MAX_ALLOWED_SIZE = 10 * 1024 * 1024;
 
-    @Autowired
-    private S3Service s3Service;
-
-    private static final long MAX_ALLOWED_SIZE = 10 * 1024 * 1024; // 5MB
+    public FileController(S3Service s3Service) {
+        this.s3Service = s3Service;
+    }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(
+    public ResponseEntity<ApiResponse<String>> uploadFile(
             @RequestParam(value = "file") MultipartFile file,
             @RequestParam(value = "folderName", required = false, defaultValue = "private") String folderName
     ) {
         if (file.getSize() > MAX_ALLOWED_SIZE) {
-            return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File too large!");
+            ApiResponse<String> response = new ApiResponse<>();
+            response.setStatus(HttpStatus.PAYLOAD_TOO_LARGE.value());
+            response.setMessage("FILE SIZE TOO LARGE");
+            return new ResponseEntity<>(response, HttpStatus.PAYLOAD_TOO_LARGE);
         }
-        return new ResponseEntity<>(s3Service.uploadFile(file, folderName), HttpStatus.OK);
+
+        ApiResponse<String> response = new ApiResponse<>();
+        response.setStatus(HttpStatus.OK.value());
+        response.setMessage("FILE UPLOADED SUCCESSFULLY");
+        response.setData(s3Service.uploadFile(file, folderName));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/download/{fileName}")

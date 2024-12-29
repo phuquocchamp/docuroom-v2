@@ -1,29 +1,25 @@
-import {
-    IoDocumentTextOutline,
-    IoSettingsOutline,
-    IoHomeOutline,
-} from "react-icons/io5";
-import { HiOutlineUserGroup } from "react-icons/hi2";
-import { FiHelpCircle } from "react-icons/fi";
-import { VscAccount } from "react-icons/vsc";
-import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import {IoDocumentTextOutline, IoHomeOutline, IoSettingsOutline,} from "react-icons/io5";
+import {HiOutlineUserGroup} from "react-icons/hi2";
+import {FiHelpCircle} from "react-icons/fi";
+import {VscAccount} from "react-icons/vsc";
+import {Link, useLocation} from "react-router-dom";
+import {ReactElement, useEffect, useState} from "react";
 
 interface SidebarLink {
     id: number;
     path: string;
     name: string;
-    icon: JSX.Element;
+    icon: ReactElement;
 }
 
 // Enum for paths
 const AppRoutes = {
     Home: "/home",
-    Document: "/home/document",
-    StudyGroup: "/home/studygroup",
-    Account: "/home/myaccount",
-    Setting: "/home/setting",
-    Help: "/home/help",
+    Document: "/document",
+    StudyGroup: "/study-group",
+    Account: "/my-account",
+    Setting: "/setting",
+    Help: "/help",
 };
 
 const SIDEBAR_LINKS: SidebarLink[] = [

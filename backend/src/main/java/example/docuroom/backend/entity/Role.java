@@ -15,6 +15,7 @@ import java.util.Set;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id")
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -28,8 +29,8 @@ public class Role {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "role_authorities",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "authority_id")
     )
     private Set<Authority> authorities = new HashSet<>();
 

@@ -35,6 +35,8 @@ public class Document extends BaseEntity{
 
     private String tags;
 
+    private int averageRating;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private AuthUser user;
@@ -42,13 +44,6 @@ public class Document extends BaseEntity{
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany
-    @JoinTable(
-            name = "has_ratings",
-            joinColumns = @JoinColumn(name = "document_id", referencedColumnName = "document_id"),
-            inverseJoinColumns = @JoinColumn(name = "rating_id", referencedColumnName = "rating_id")
-    )
-    private List<Rating> ratings = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

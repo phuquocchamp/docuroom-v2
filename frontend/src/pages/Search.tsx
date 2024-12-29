@@ -1,27 +1,18 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CiSearch } from 'react-icons/ci';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 interface SearchProps {
   // If you want to pass props like initial search query, you can define them here
 }
 
 const Search: React.FC<SearchProps> = () => {
-  const [searchQuery, setSearchQuery] = useState<string>(''); // Search query state
-  const [resultsCount, setResultsCount] = useState<number>(0); // Results count state
+  const [searchQuery] = useState<string>(''); // Search query state
+  const [resultsCount] = useState<number>(0); // Results count state
+    useNavigate();
+// To handle navigation
+    return (
+        <div className="p-4">
 
-  const navigate = useNavigate(); // To handle navigation
-
-
-
-  const handleSearchSubmit = () => {
-    // Logic for handling search submission (could call an API)
-    console.log('Searching for:', searchQuery);
-  };
-
-  return (
-    <div className="p-4">
-      
 
       {/* Results Count */}
       <p className="text-gray-700 mb-4">
@@ -46,7 +37,7 @@ const Search: React.FC<SearchProps> = () => {
         )}
       </div>
 
-      
+
     </div>
   );
 };

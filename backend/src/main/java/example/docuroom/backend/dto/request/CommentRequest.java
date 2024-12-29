@@ -9,7 +9,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentRequest {
-//    private String documentId;
-    private String author;
     private String message;
 }
